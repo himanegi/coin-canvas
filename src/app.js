@@ -143,3 +143,36 @@ app.post("/login", async (req, res) => {
     res.send(err);
   }
 });
+
+//Logout which destroys the cookie
+app.get("/logout", (req, res) => {
+  // Destroy the cookie
+  if (req.cookies.emailToken == null) res.redirect("login");
+  res.clearCookie("emailToken");
+  res.redirect("/");
+});
+
+//Dashboard Page
+app.get("/dashboard", async (req, res) => {
+  if (req.cookies.emailToken == null) res.redirect("login");
+  try {
+    const decoded = await jwt.verify(req.cookies.emailToken, "coinCanvas");
+    const categoryData = await Expenses.aggregate([
+      { $match: { user: decoded.username } },
+      {
+        $group: {
+          _id: "$category",
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+    ]);
+    const userEmailToken = {
+      username: decoded.username,
+      categoryData: categoryData,
+    };
+
+    res.render("dashboard", userEmailToken);
+  } catch (err) {
+    res.render("index");
+  }
+});
