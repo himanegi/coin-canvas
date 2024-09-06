@@ -380,3 +380,15 @@ app.post("/updateExpense", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+// Route to delete an expense
+app.get("/deleteExpense/:id", async (req, res) => {
+  const expenseId = req.params.id;
+  try {
+    await Expenses.findByIdAndDelete(expenseId);
+    res.status(200).send("Expense deleted successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
