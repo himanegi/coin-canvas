@@ -179,77 +179,98 @@ app.get("/dashboard", async (req, res) => {
 
 //Analysis Page
 app.get("/analysis", async (req, res) => {
-    if (req.cookies.emailToken == null) res.redirect("login");
-    try {
-      const decoded = await jwt.verify(req.cookies.emailToken, "coinCanvas");
-  
-      // Get current date
-      const currentDate = new Date();
-  
-      // Define start and end dates for different intervals
-      const startDateDaily = new Date(currentDate);
-      startDateDaily.setHours(0, 0, 0, 0);
-  
-      const startDateWeekly = new Date(currentDate);
-      startDateWeekly.setDate(currentDate.getDate() - currentDate.getDay());
-      startDateWeekly.setHours(0, 0, 0, 0);
-  
-      const startDateMonthly = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth(),
-        1,
-        0,
-        0,
-        0,
-        0
-      );
-  
-      const startDateYearly = new Date(
-        currentDate.getFullYear(),
-        0,
-        1,
-        0,
-        0,
-        0,
-        0
-      );
-  
-      // Function to group expenses based on date
-      const groupByDate = (intervalStartDate) => {
-        const byDate = Expenses.aggregate([
-          {
-            $match: {
-              user: decoded.username,
-              paymentDate: { $gte: intervalStartDate },
-            },
+  if (req.cookies.emailToken == null) res.redirect("login");
+  try {
+    const decoded = await jwt.verify(req.cookies.emailToken, "coinCanvas");
+
+    // Get current date
+    const currentDate = new Date();
+
+    // Define start and end dates for different intervals
+    const startDateDaily = new Date(currentDate);
+    startDateDaily.setHours(0, 0, 0, 0);
+
+    const startDateWeekly = new Date(currentDate);
+    startDateWeekly.setDate(currentDate.getDate() - currentDate.getDay());
+    startDateWeekly.setHours(0, 0, 0, 0);
+
+    const startDateMonthly = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1,
+      0,
+      0,
+      0,
+      0
+    );
+
+    const startDateYearly = new Date(
+      currentDate.getFullYear(),
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    );
+
+    // Function to group expenses based on date
+    const groupByDate = (intervalStartDate) => {
+      const byDate = Expenses.aggregate([
+        {
+          $match: {
+            user: decoded.username,
+            paymentDate: { $gte: intervalStartDate },
           },
-          {
-            $group: {
-              _id: {
-                $dateToString: { format: "%Y-%m-%d", date: "$paymentDate" },
-              },
-              totalAmount: { $sum: "$amount" },
+        },
+        {
+          $group: {
+            _id: {
+              $dateToString: { format: "%Y-%m-%d", date: "$paymentDate" },
             },
+            totalAmount: { $sum: "$amount" },
           },
-        ]);
-        return byDate;
-      };
-      
-      // Function to group expenses based on month name
+        },
+      ]);
+      return byDate;
+    };
+
+    // Function to group expenses based on month name
     const groupByMonth = (intervalStartDate) => {
-        const byMonth = Expenses.aggregate([
-          {
-            $match: {
-              user: decoded.username,
-              paymentDate: { $gte: intervalStartDate },
-            },
+      const byMonth = Expenses.aggregate([
+        {
+          $match: {
+            user: decoded.username,
+            paymentDate: { $gte: intervalStartDate },
           },
-          {
-            $group: {
-              _id: { $dateToString: { format: "%B", date: "$paymentDate" } },
-              totalAmount: { $sum: "$amount" },
-            },
+        },
+        {
+          $group: {
+            _id: { $dateToString: { format: "%B", date: "$paymentDate" } },
+            totalAmount: { $sum: "$amount" },
           },
-        ]);
-        return byMonth;
-      };
+        },
+      ]);
+      return byMonth;
+    };
+
+    // Fetch data for different intervals
+    const dailyExpenses = await groupByDate(startDateDaily);
+    const weeklyExpenses = await groupByWeek(startDateWeekly);
+    const monthlyExpenses = await groupByMonth(startDateMonthly);
+    const yearlyExpenses = await groupByDate(startDateYearly);
+
+    const userEmailToken = {
+      username: decoded.username,
+      dailyExpenses: dailyExpenses,
+      weeklyExpenses: weeklyExpenses,
+      monthlyExpenses: monthlyExpenses,
+      yearlyExpenses: yearlyExpenses,
+    };
+
+    res.render("analysis", userEmailToken);
+  } catch (err) {
+    console.log(err);
+    res.render("index");
+  }
+});
