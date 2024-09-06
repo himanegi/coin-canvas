@@ -19,3 +19,22 @@ const Supports = require("./model/support");
 const staticPath = path.join(__dirname, "../public");
 const templatePath = path.join(__dirname, "../templates/views");
 const partialsPath = path.join(__dirname, "../templates/partials");
+
+app.use(express.static(staticPath));
+app.set("view engine", "hbs");
+app.set("views", templatePath);
+hbs.registerPartials(partialsPath);
+hbs.registerHelper("json", function (context) {
+  return JSON.stringify(context);
+});
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
+
+app.get("/", (req, res) => {
+  if (req.cookies.emailToken == null) res.render("index");
+  else res.render("dashboard");
+});
+app.get("/index", (req, res) => {
+  res.render("index");
+});
