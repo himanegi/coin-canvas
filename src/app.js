@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 const notifier = require("node-notifier");
 const requests = require("requests");
+const sendMailer = require("./smtp/server");
 const port = process.env.PORT || 8000;
 require("./db/conn");
 
@@ -38,3 +39,9 @@ app.get("/", (req, res) => {
 app.get("/index", (req, res) => {
   res.render("index");
 });
+
+//Generate OTP
+function generateOTP() {
+  return crypto.randomBytes(3).toString("hex").toUpperCase();
+}
+const otp = generateOTP();
