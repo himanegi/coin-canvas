@@ -274,3 +274,57 @@ app.get("/analysis", async (req, res) => {
     res.render("index");
   }
 });
+
+//To redirect addExpense page
+app.get("/addExpense", async (req, res) => {
+  if (req.cookies.emailToken == null) res.redirect("login");
+  try {
+    //Checking the token which is login user
+    const decoded = await jwt.verify(req.cookies.emailToken, "coinCanvas");
+    console.log(decoded.username);
+    const expenseDetails = await Expenses.find({ user: decoded.username });
+
+    // Calculate total expenses
+    const totalExpenses = expenseDetails.reduce(
+      (total, expense) => total + expense.amount,
+      0
+    );
+    console.log("Total Expenses:", totalExpenses);
+
+    // Find expenses with payment status "Pending"
+    const pendingExpenses = await Expenses.find({
+      user: decoded.username,
+      paymentStatus: "Pending",
+    });
+    // Calculate total pending expenses
+    const totalPendingExpenses = pendingExpenses.reduce(
+      (total, expense) => total + expense.amount,
+      0
+    );
+    console.log("Total Pending Expenses:", totalPendingExpenses);
+
+    // Find expenses with payment status "Pending"
+    const doneExpenses = await Expenses.find({
+      user: decoded.username,
+      paymentStatus: "Done",
+    });
+    // Calculate total pending expenses
+    const totalDoneExpenses = doneExpenses.reduce(
+      (total, expense) => total + expense.amount,
+      0
+    );
+    console.log("Total Pending Expenses:", totalDoneExpenses);
+
+    const userEmailToken = {
+      username: decoded.username,
+      expenses: expenseDetails,
+      totalExpenses: totalExpenses,
+      totalPendingExpenses: totalPendingExpenses,
+      totalDoneExpenses: totalDoneExpenses,
+    };
+    res.render("addExpense", userEmailToken);
+  } catch (err) {
+    res.render("index");
+    res.redirect("/");
+  }
+});
