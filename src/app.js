@@ -176,3 +176,61 @@ app.get("/dashboard", async (req, res) => {
     res.render("index");
   }
 });
+
+//Analysis Page
+app.get("/analysis", async (req, res) => {
+    if (req.cookies.emailToken == null) res.redirect("login");
+    try {
+      const decoded = await jwt.verify(req.cookies.emailToken, "coinCanvas");
+  
+      // Get current date
+      const currentDate = new Date();
+  
+      // Define start and end dates for different intervals
+      const startDateDaily = new Date(currentDate);
+      startDateDaily.setHours(0, 0, 0, 0);
+  
+      const startDateWeekly = new Date(currentDate);
+      startDateWeekly.setDate(currentDate.getDate() - currentDate.getDay());
+      startDateWeekly.setHours(0, 0, 0, 0);
+  
+      const startDateMonthly = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        1,
+        0,
+        0,
+        0,
+        0
+      );
+  
+      const startDateYearly = new Date(
+        currentDate.getFullYear(),
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      );
+  
+      // Function to group expenses based on date
+      const groupByDate = (intervalStartDate) => {
+        const byDate = Expenses.aggregate([
+          {
+            $match: {
+              user: decoded.username,
+              paymentDate: { $gte: intervalStartDate },
+            },
+          },
+          {
+            $group: {
+              _id: {
+                $dateToString: { format: "%Y-%m-%d", date: "$paymentDate" },
+              },
+              totalAmount: { $sum: "$amount" },
+            },
+          },
+        ]);
+        return byDate;
+      };
