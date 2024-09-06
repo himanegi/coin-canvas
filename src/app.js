@@ -351,3 +351,32 @@ app.post("/addExpense", async (req, res) => {
     res.status(400).send(error);
   }
 });
+
+// Route to update an expense
+app.post("/updateExpense", async (req, res) => {
+  const {
+    _id,
+    category,
+    amount,
+    paymentMethod,
+    Description,
+    paymentDate,
+    paymentStatus,
+  } = req.body;
+
+  try {
+    await Expenses.findByIdAndUpdate(_id, {
+      category,
+      amount,
+      paymentMethod,
+      Description,
+      paymentDate,
+      paymentStatus,
+    });
+
+    res.status(200).send("Expense updated successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
