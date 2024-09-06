@@ -31,7 +31,7 @@ Coin Canvas is an intuitive expense management portal that helps users track tra
 1. Clone the repository:
 
    ```
-   git clone https://github.com/yourusername/coin-canvas.git
+   git clone https://github.com/himanegi/coin-canvas.git
    ```
 
 2. Navigate to the project directory:
@@ -68,7 +68,7 @@ Coin Canvas is an intuitive expense management portal that helps users track tra
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/yourusername/coin-canvas/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/himanegi/coin-canvas/issues).
 
 ## 📝 License
 
