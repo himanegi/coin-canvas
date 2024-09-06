@@ -234,3 +234,22 @@ app.get("/analysis", async (req, res) => {
         ]);
         return byDate;
       };
+      
+      // Function to group expenses based on month name
+    const groupByMonth = (intervalStartDate) => {
+        const byMonth = Expenses.aggregate([
+          {
+            $match: {
+              user: decoded.username,
+              paymentDate: { $gte: intervalStartDate },
+            },
+          },
+          {
+            $group: {
+              _id: { $dateToString: { format: "%B", date: "$paymentDate" } },
+              totalAmount: { $sum: "$amount" },
+            },
+          },
+        ]);
+        return byMonth;
+      };
