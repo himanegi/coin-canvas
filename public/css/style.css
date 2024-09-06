@@ -1,0 +1,204 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+:root {
+  --accent-color: #a876aa;
+  --main-transition: all 0.3s ease-in-out;
+  --primary-color:black;
+  --secondary-color:white;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: "Montserrat", sans-serif;
+    color: var(--secondary-color);
+    background: var(--primary-color);
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.nav{
+    background-color: transparent;
+    top: 0;
+    left: 0;
+    right: 0;
+    transition: var(--main-transition);
+    text-transform: uppercase;
+    box-shadow: 0 5 15px var(--accent-color);
+}
+
+.nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    transition: var(--main-transition);
+}
+
+.nav ul {
+    display: flex;
+    list-style-type: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav a {
+    position: relative;
+    color: var(--secondary-color);
+    text-decoration: none;
+    padding: 7px 15px;
+    font-weight: 300;
+    transition: var(--main-transition);
+}
+
+.nav * {
+    font-size: 16px;
+    letter-spacing: 0.1rem;
+}
+
+.fa-coin-front{
+  transition: all linear;
+  animation: rot 2s linear infinite;
+  color:var(--main-color);
+}
+
+.nav a:hover {
+    color: var(--accent-color);
+}
+
+@keyframes rot{
+  0%{
+      transform: rotate(0deg);
+  }
+  100%{
+      transform: rotate(360deg);
+  }
+}
+.content{
+    padding: 50px;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+    gap: 100px;
+}
+
+/* login */
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 36px;
+  color: var(--accent-color);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+  input, select {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: var(--secondary-color);
+    background-color: #555;
+  }
+
+  button{
+    background: var(--secondary-color);
+    font-size: medium;
+    border:none;
+    border-radius:5px;
+    padding:10px 36px;
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: background-color 0.2s ease-in-out;
+}
+
+  button:hover {
+    background-color: var(--secondary-color);
+  }
+
+a {
+  text-decoration: none;
+  color: var(--accent-color);
+  font-size: 18px;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--accent-color);
+}
+
+p {
+  margin: 8px;
+}
+
+img{
+  /* border-radius: 20px; */
+  border: 3px solid var(--accent-color);
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: var(--secondary-color);
+    text-align: center;
+    background-color: transparent;
+    text-transform: uppercase;
+    padding: 20px;
+}
+
+[data-letters]:before {
+  content:attr(data-letters);
+  display:inline-block;
+  font-size:1em;
+  width:2.5em;
+  height:2.5em;
+  line-height:2.5em;
+  text-align:center;
+  border-radius:50%;
+  background:rgb(110, 20, 165);
+  vertical-align:middle;
+  margin-right:1em;
+  color:white;
+  }
+/* theme change css */
+#theme{
+  border: none;
+  height: 2rem;
+  width: 2rem;
+}
+.dark-theme{
+  --accent-color: red;
+  --main-transition: all 0.3s ease-in-out;
+  --primary-color:white;
+  --secondary-color:black;
+}
+
+table {
+  height: 560px;
+  display: inline-block;
+  width: 100%;
+  overflow: auto;
+}
