@@ -46,15 +46,15 @@ Coin Canvas is a powerful and user-friendly expense management platform designed
    npm install
    ```
 
-4. Create a `.env` file in the root directory and add your environment variables:
+4. Create a `.env` file in the root directory and add your environment variables
 
-   ```
+   <!-- ```
    PORT=3000
    MONGODB_URI=your_mongodb_connection_string
    EMAIL_SERVICE=your_email_service
    EMAIL_USER=your_email
-   EMAIL_PASS=your_email_password
-   ```
+   EMAIL_PASS=your_email_password -->
+   <!-- ``` -->
 
 5. Start the application:
 
