@@ -427,3 +427,30 @@ app.get("/currency", async (req, res) => {
       }
     });
 });
+
+//Crypto Currency Page
+app.get("/crypto", async (req, res) => {
+  if (req.cookies.emailToken == null) res.render("index");
+  else {
+    const decoded = await jwt.verify(req.cookies.emailToken, "coinCanvas");
+    console.log(decoded.username);
+    const expenseDetails = await Expenses.find({ user: decoded.username });
+    const userEmailToken = {
+      username: decoded.username,
+    };
+    res.render("crypto", userEmailToken);
+  }
+});
+//Stocks Page
+app.get("/stocks", async (req, res) => {
+  if (req.cookies.emailToken == null) res.render("index");
+  else {
+    const decoded = await jwt.verify(req.cookies.emailToken, "coinCanvas");
+    console.log(decoded.username);
+    const expenseDetails = await Expenses.find({ user: decoded.username });
+    const userEmailToken = {
+      username: decoded.username,
+    };
+    res.render("stocks", userEmailToken);
+  }
+});
