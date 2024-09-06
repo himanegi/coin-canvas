@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{>headerLinks}}
+    <link rel="icon" type="image/x-icon" href="images/expenses.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js" integrity="sha512-7U4rRB8aGAHGVad3u2jiC7GA5/1YhQcQjxKeaVms/bT66i3LVBMRcBI9KwABNWnxOSwulkuSXxZLGuyfvo7V1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="css/dashboard.css"> 
+</head>
+<body>
+  {{>navToken}}
+    <!-- main header -->
+    <div class="content-container">
+        
+        <div class="datashow">
+            {{!-- Daily Chart --}}
+            <h3>Daily Analysis</h3><hr style="color: white;">
+             <div class="lower">
+                <div class="chart1">
+                    <canvas id="barchart_d"></canvas>
+                </div>
+                <div class="chart2">
+                    <canvas id="piechart_d"></canvas>
+                </div>  
+            </div>
+            {{!-- Weekly Chart --}}
+            <h3>Weekly Analysis</h3><hr style="color: white;">
+            <h3></h3>
+            <div class="lower">
+                <div class="chart1">
+                    <canvas id="barchart_w"></canvas>
+                </div>
+                <div class="chart2">
+                    <canvas id="piechart_w"></canvas>
+                </div>  
+            </div>
+            {{!-- Monthly Chart --}}
+            <h3>Monthly Analysis</h3><hr style="color: white;">
+             <div class="lower">
+                <div class="chart1">
+                    <canvas id="barchart_m"></canvas>
+                </div>
+                <div class="chart2">
+                    <canvas id="piechart_m"></canvas>
+                </div>  
+            </div>
+            {{!-- Yearly Chart --}}
+            <h3>Yearly Analysis</h3><hr style="color: white;">
+            <div class="lower">
+                <div class="chart1">
+                    <canvas id="barchart_y"></canvas>
+                </div>
+                <div class="chart2">
+                    <canvas id="piechart_y"></canvas>
+                </div>  
+            </div>
+        </div>
+    </div>
+  </div>
+
+    {{>footer}}
+</body>
+
+<script>
+    // Parse the JSON data passed from the server
+    var dailyExpenses = {{{json dailyExpenses }}};
+    var weeklyExpenses = {{{json weeklyExpenses }}};
+    var monthlyExpenses = {{{json monthlyExpenses }}};
+    var yearlyExpenses = {{{json yearlyExpenses }}};
+    // Function to create the line chart
+    // Extract labels and data for the chart
+        const extractChartData = (data) => {
+          const labels = data.map(item => item._id);
+          const totalAmounts = data.map(item => item.totalAmount);
+          return { labels, totalAmounts };
+        };
+        
+        const dailyChartData = extractChartData(dailyExpenses);
+        const weeklyChartData = extractChartData(weeklyExpenses);
+        const monthlyChartData = extractChartData(monthlyExpenses);
+        const yearlyChartData = extractChartData(yearlyExpenses);
+    function createLineChart(id,labels, data, label, borderColor) {
+        new Chart(document.getElementById(id).getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    borderColor: borderColor,
+                    borderWidth: 1,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Function to create the bar chart
+    function createBarChart(id,labels, data, label, backgroundColor, borderColor) {
+        new Chart(document.getElementById(id).getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    backgroundColor: backgroundColor,
+                    borderColor: borderColor,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Create line charts with the data
+    createLineChart("barchart_d",dailyChartData.labels, dailyChartData.totalAmounts, 'Daily Expense', 'rgba(255, 99, 132, 1)');
+    createLineChart("barchart_w",weeklyChartData.labels, weeklyChartData.totalAmounts, 'Weekly Expense', 'rgba(54, 162, 235, 1)');
+    createLineChart("barchart_m",monthlyChartData.labels, monthlyChartData.totalAmounts, 'Monthly Expense', 'rgba(255, 206, 86, 1)');
+    createLineChart("barchart_y",yearlyChartData.labels, yearlyChartData.totalAmounts, 'Yearly Expense', 'rgba(75, 192, 192, 1)');
+
+    // Create bar charts with the data
+    createBarChart("piechart_d",dailyChartData.labels, dailyChartData.totalAmounts, 'Daily Expense', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)');
+    createBarChart("piechart_w",weeklyChartData.labels, weeklyChartData.totalAmounts, 'Weekly Expense', 'rgba(54, 162, 235, 0.2)', 'rgba(54, 162, 235, 1)');
+    createBarChart("piechart_m",monthlyChartData.labels, monthlyChartData.totalAmounts, 'Monthly Expense', 'rgba(255, 206, 86, 0.2)', 'rgba(255, 206, 86, 1)');
+    createBarChart("piechart_y",yearlyChartData.labels, yearlyChartData.totalAmounts, 'Yearly Expense', 'rgba(75, 192, 192, 0.2)', 'rgba(75, 192, 192, 1)');
+</script>
+</html>
+
