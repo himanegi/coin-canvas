@@ -45,3 +45,55 @@ function generateOTP() {
   return crypto.randomBytes(3).toString("hex").toUpperCase();
 }
 const otp = generateOTP();
+
+//Starts the Email verification using Etherial smtp server
+app.post("/sendOtp", (req, res) => {
+  if (req.body.pass === req.body.cpass) {
+    sendMailer.sendMail(req.body.email, otp);
+  } else {
+    //Desktop notification
+    notifier.notify({
+      title: "@coincanvas",
+      message: "Password Not Matched!",
+      icon: path.join(__dirname, "icon.jpg"),
+      sound: true,
+      wait: true,
+    });
+    req.body.pass = null;
+    req.body.cpass = null;
+  }
+});
+
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
+//create a new user in our database
+app.post("/register", async (req, res) => {
+  try {
+    if (req.body.otp == otp) {
+      const registerEmployee = new Registers({
+        name: req.body.name,
+        email: req.body.email,
+        contact: req.body.contact,
+        password: req.body.pass,
+      });
+      //Inserting data into DB
+      const registered = await registerEmployee.save();
+      res.status(201).render("login");
+      console.log("Insertion Done!");
+    } else {
+      //Desktop notification
+      notifier.notify({
+        title: "@coinCanvas",
+        message: "Invalid OTP!",
+        icon: path.join(__dirname, "icon.jpg"),
+        sound: true,
+        wait: true,
+      });
+      req.body.otp = null;
+    }
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
