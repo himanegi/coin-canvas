@@ -454,3 +454,52 @@ app.get("/stocks", async (req, res) => {
     res.render("stocks", userEmailToken);
   }
 });
+
+app.get("/support", async (req, res) => {
+  if (req.cookies.emailToken == null) res.redirect("login");
+  try {
+    //Checking the token which is login user
+    const decoded = await jwt.verify(req.cookies.emailToken, "coinCanvas");
+    console.log(decoded.username);
+    const expenseDetails = await Registers.find({ email: decoded.username });
+    const userEmailToken = {
+      username: decoded.username,
+      expense: expenseDetails,
+    };
+    res.render("support", userEmailToken);
+  } catch (err) {
+    res.render("dashboard");
+    res.redirect("/dashboard");
+  }
+});
+
+app.post("/support", async (req, res) => {
+  try {
+    const supportEmployee = new Supports({
+      name: req.body.name,
+      email: req.body.email,
+      contact: req.body.contact,
+      subject: req.body.subject,
+      description: req.body.description,
+    });
+    //Inserting data into DB
+    await supportEmployee.save();
+    res.status(201).render("dasboard");
+    console.log("Insertion Done!");
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+app.get("/about", (req, res) => {
+  res.render("about");
+});
+
+app.get("*", (req, res) => {
+  res.render("index");
+});
+
+//Starts the server on $PORT which is by default 8000
+app.listen(port, () => {
+  console.log(`port ${port} listening!`);
+});
