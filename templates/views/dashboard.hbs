@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{>headerLinks}}
+    <link rel="icon" type="image/x-icon" href="images/expenses.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js" integrity="sha512-7U4rRB8aGAHGVad3u2jiC7GA5/1YhQcQjxKeaVms/bT66i3LVBMRcBI9KwABNWnxOSwulkuSXxZLGuyfvo7V1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="css/dashboard.css"> 
+</head>
+<body>
+  {{>navToken}}
+    <!-- main header -->
+    <div class="content-container">
+        <div class="sidebar" >
+            <div class="logo">
+                <p class="logo-text">Coin Canvas</p>
+            </div>
+            <ul class="menu" >
+                <a href="/dashboard">Dashboard</a>
+                <a href="/analysis">Analysis</a>
+                <a href="/currency">Currency Exchange</a>
+                <a href="/stocks">Stocks</a>
+                <a href="/crypto">Crypto Currency</a>
+                <a href="/addExpense">Expense</a>
+                <a href="/support">Support</a>
+                <a href="/about">About</a>
+                <a href="/logout">Logout</a>
+                <a href="/profile" data-letters="{{username}}" style="margin-bottom: 0px;"></a>
+	          </ul>
+        </div>
+        <div class="datashow">
+            
+             <div class="lower">
+            <div class="chart1">
+              <canvas id="barchart"></canvas>
+            </div>
+            <div class="chart2">
+              <canvas id="piechart"></canvas>
+            </div>  
+            </div>
+            
+        </div>
+    </div>
+  </div>
+
+    {{>footer}}
+</body>
+
+<script>
+   // var a = "bar";
+// Define a JavaScript variable and assign JSON data to it
+  var categoryData = {{{json categoryData}}};
+  // Extract labels and data for the chart
+  var labels = categoryData.map(item => item._id);
+  var data = categoryData.map(item => item.totalAmount);
+  // Create the chart
+  var ctx = document.getElementById('barchart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Total Expense',
+        data: data,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+  //var a = "pie";
+const btx = document.getElementById('piechart');
+  new Chart(btx, {
+    type: "pie",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Total Expenses:',
+        data: data,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+</script>
+</html>
+

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="images/expenses.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="shortcut icon" href="favicon" type="image/x-icon"> -->
+    <style>
+        #tilt {
+        display: block;
+        background-color: rgba(183, 183, 183, 0.322);
+        margin: 0 auto;
+        transition: box-shadow 0.1s, transform 0.1s;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+        }
+
+        #tilt:hover {
+        box-shadow: 0px 0px 30px rgba(255, 74, 252, 0.5);
+        cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    {{>navbar}}
+    <div class="container">
+    <div class="row">
+        <div class="col-sm" style="">
+            <div id="tilt" class="panel panel-default" style="">
+                {{!-- <h1 name="usd">{{usdRate}}</h1> --}}
+                <h4 name="usd" style="text-align: center;">Crypto Currency</h4>
+                <hr color="white">
+                <div style="opacity:100%">
+                    <!-- TradingView Widget BEGIN -->
+                    <div class="tradingview-widget-container">
+                    <div class="tradingview-widget-container__widget"></div>
+                    
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-tickers.js" async>
+                    {
+                    "symbols": [
+                        {
+                        "proName": "FOREXCOM:SPXUSD",
+                        "title": "S&P 500"
+                        },
+                        {
+                        "proName": "FOREXCOM:NSXUSD",
+                        "title": "US 100"
+                        },
+                        {
+                        "proName": "BITSTAMP:BTCUSD",
+                        "title": "Bitcoin"
+                        },
+                        {
+                        "proName": "BITSTAMP:ETHUSD",
+                        "title": "Ethereum"
+                        }
+                    ],
+                    "colorTheme": "light",
+                    "isTransparent": true,
+                    "showSymbolLogo": true,
+                    "locale": "in"
+                    }
+                    </script>
+                    </div>
+                    <!-- TradingView Widget END -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+  <div class="tradingview-widget-container__widget"></div>
+  
+  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+  {
+  "width": "100%",
+  "height": "400",
+  "defaultColumn": "overview",
+  "screener_type": "crypto_mkt",
+  "displayCurrency": "USD",
+  "colorTheme": "light",
+  "locale": "in",
+  "isTransparent": true
+}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+</div>
+    
+    {{>footer}}
+</body>
+</html>
