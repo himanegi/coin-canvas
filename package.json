@@ -1,0 +1,43 @@
+{
+  "name": "coincanvas",
+  "version": "1.0.0",
+  "description": "It's an expanse management portal where we can manage our ledger,transactions , track savings to meet our financial goal as well as generate report",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dineshds015/coinCanvas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dineshds015/coinCanvas/issues"
+  },
+  "homepage": "https://github.com/Dineshds015/coinCanvas#readme",
+  "dependencies": {
+    "alert": "^6.0.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "chart.js": "^4.4.0",
+    "cookie-parser": "^1.4.6",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "hbs": "^4.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0",
+    "mongoose-findorcreate": "^4.0.0",
+    "node-notifier": "^10.0.1",
+    "nodemailer": "^6.9.7",
+    "requests": "^0.3.0",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^8.0.0",
+    "popups": "^1.1.3"
+  }
+}
