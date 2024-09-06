@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{>headerLinks}}
+	<link rel="icon" type="image/x-icon" href="images/expenses.png">
+</head>
+<body>
+    {{>navbar}}
+<!-- main header -->
+<div class="container" id="container">
+    <div class="form-container" id="signup-form">
+		<h1>Sign Up</h1>
+		<form id="regForm" method="POST">
+			<label for="new-username" id="lbl_name">Username</label>
+			<input type="text" id="name" name="name" required>
+			<label for="new-email" id="lbl_email">Email</label>
+			<input type="email" id="email" name="email" required>
+            <label for="contact" id="lbl_contact">Contact No</label>
+            <input type="text" id="contact" name="contact">
+			<label for="new-password" id="lbl_pass">Password</label>
+			<input type="password" id="pass" name="pass" required>
+            <label for="c-password" id="lbl_cpass">Confirm Password</label>
+            <input type="password" id="cpass" name="cpass" required>
+			<button type="submit" id="sendotp" onclick="setFormAction('/sendOtp')">Sign Up</button>
+            <input type="password" id="otp" name="otp" placeholder="Enter OTP" hidden>
+			<button type="submit" id="register" onclick="setFormAction('/register')" hidden>Verify</button>
+		</form>
+			<br>
+			<a href="#" role="button">signup with google</a>
+		<script>
+			function setFormAction(action) {
+            	document.getElementById('regForm').action = action;
+        	}
+			document.getElementById("sendotp").addEventListener('click',function(){
+				var contentIdsToHide = ['lbl_name','lbl_email','lbl_contact','lbl_pass','lbl_cpass','name','email','contact','pass','cpass','sendotp'];
+				// Hide Contents with specified IDs
+				if(document.getElementById("pass").value==document.getElementById("cpass").value)
+				{
+					contentIdsToHide.forEach(function(id) {
+						var content = document.getElementById(id);
+						if (content) {
+							content.style.display = 'none';
+						}
+					});
+
+					var contentIdsToShow = ['otp','register'];
+					// Show Contents with specified IDs
+					contentIdsToShow.forEach(function(id) {
+						var content = document.getElementById(id);
+						if (content) {
+							content.style.display = 'block';
+						}
+					});
+				}
+				else
+					alert("Password Not Matched !");
+			});
+		</script>
+		<p>Already have an account? <a href="login" id="login-link">Login</a></p>
+	</div>
+</div>
+{{!-- {{>footer}} --}}
+</body>
+</html>
