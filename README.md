@@ -1,6 +1,6 @@
 # Coin Canvas
 
-Coin Canvas is an intuitive expense management portal that helps users track transactions, manage investments, and achieve financial goals. Visualize expenses with interactive charts and integrate cryptocurrency and stock data seamlessly.
+Coin Canvas is a powerful and user-friendly expense management platform designed to simplify financial tracking and decision-making. It allows users to effortlessly monitor transactions, manage investments, and set personalized financial goals. With dynamic, interactive charts, users can visualize spending patterns and investment growth. Coin Canvas also offers seamless integration of cryptocurrency and stock market data, providing a holistic view of both traditional and digital assets in one place.
 
 ## ✨ Key Features
 
