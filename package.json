@@ -1,8 +1,7 @@
 {
-  "name": "coincanvas",
+  "name": "coin-canvas",
   "version": "1.0.0",
-  "description": "It's an expanse management portal where we can manage our ledger,transactions , track savings to meet our financial goal as well as generate report",
-  "main": "index.js",
+  "description": "It is an intuitive expense management portal that helps users track transactions, manage investments, and achieve financial goals. Visualize expenses with interactive charts and integrate cryptocurrency and stock data seamlessly.", "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
