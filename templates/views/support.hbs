@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{>headerLinks}}
+    <link rel="icon" type="image/x-icon" href="images/expenses.png">
+</head>
+<body>
+    {{>navToken}}
+<!-- main header -->
+<div class="container" id="container">
+    <div class="form-container" id="support-form" style="">
+		<h1>Support</h1>
+		<form id="supForm" action="support" method="POST">
+			<label for="name" id="lbl_name">Username</label>
+			<input type="text" id="name" name="name" value="{{expense.[0].name}}" disabled>
+			<label for="new-email" id="lbl_email">Email</label>
+			<input type="email" id="email" name="email" value="{{username}}" disabled>
+            <label for="contact" id="lbl_contact">Contact No</label>
+            <input type="text" id="contact" name="contact">
+            <label for="subject" id="lbl_subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="Subject">
+            <label for="description" id="lbl_description">Description</label>
+            <input type="textarea" id="description" name="description" placeholder="Description">
+			<button type="submit" id="submit" name="submit">Create Ticket</button>
+		</form>
+	</div>
+</div>
+{{!-- {{>footer}} --}}
+</body>
+</html>

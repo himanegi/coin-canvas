@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="images/expenses.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="shortcut icon" href="favicon" type="image/x-icon"> -->
+    
+</head>
+<body>
+    {{>navToken}}
+    <div class="container">
+    <div class="row">
+        <div class="col-sm" style="">
+            
+        </div>
+    </div>
+    <br>
+    <!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container" style="height:500px;width:100%">
+    <div id="tradingview_c30fa" style="height:calc(100% - 32px);width:100%"></div>
+    
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+        new TradingView.widget(
+        {
+            "autosize": true,
+            "symbol": "NASDAQ:AAPL",
+            "interval": "D",
+            "timezone": "Asia/Kolkata",
+            "theme": "light",
+            "style": "1",
+            "locale": "in",
+            "enable_publishing": false,
+            "allow_symbol_change": true,
+            "container_id": "tradingview_c30fa"
+        }
+    );
+    </script>
+    <!-- TradingView Widget BEGIN -->
+    <h1>Indian Stock Exchange</h1>
+    <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+    {
+    "exchanges": [],
+    "dataSource": "SENSEX",
+    "grouping": "sector",
+    "blockSize": "market_cap_basic",
+    "blockColor": "change",
+    "locale": "in",
+    "symbolUrl": "",
+    "colorTheme": "light",
+    "hasTopBar": false,
+    "isDataSetEnabled": false,
+    "isZoomEnabled": true,
+    "hasSymbolTooltip": true,
+    "width": "100%",
+    "height": "100%"
+    }
+    </script>
+    </div>
+    </div>
+</div>
+    
+    {{>footer}}
+</body>
+</html>
