@@ -328,3 +328,26 @@ app.get("/addExpense", async (req, res) => {
     res.redirect("/");
   }
 });
+
+//addExpanse in our database
+app.post("/addExpense", async (req, res) => {
+  if (req.cookies.emailToken == null) res.redirect("login");
+  try {
+    //Checking the token which is login user
+    const decoded = jwt.verify(req.cookies.emailToken, "coinCanvas");
+    const addNewExpense = new Expenses({
+      amount: req.body.amount,
+      category: req.body.category,
+      paymentMethod: req.body.payMethod,
+      paymentDate: req.body.payDate,
+      Description: req.body.description,
+      paymentStatus: req.body.payStatus,
+      user: decoded.username,
+    });
+    const registered = await addNewExpense.save();
+    res.redirect("addExpense");
+    console.log("Expense Added Successfully!");
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
