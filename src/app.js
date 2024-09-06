@@ -15,3 +15,7 @@ require("./db/conn");
 const Registers = require("./model/register");
 const Expenses = require("./model/addExpense");
 const Supports = require("./model/support");
+
+const staticPath = path.join(__dirname, "../public");
+const templatePath = path.join(__dirname, "../templates/views");
+const partialsPath = path.join(__dirname, "../templates/partials");
