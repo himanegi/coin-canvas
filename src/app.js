@@ -392,3 +392,38 @@ app.get("/deleteExpense/:id", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+//Fetching Currency page
+app.get("/currency", async (req, res) => {
+  let data = "";
+  const decoded = await jwt.verify(req.cookies.emailToken, "coinCanvas");
+  console.log(decoded.username);
+  const expenseDetails = await Expenses.find({ user: decoded.username });
+  //Currency Exchange API EUR-Base
+  requests(
+    "http://api.exchangeratesapi.io/v1/latest?access_key=7b81a7b0177ec6b960aff916c22f2975&format=1"
+  )
+    .on("data", (chunk) => {
+      data += chunk;
+    })
+    .on("end", (err) => {
+      if (err) return console.log("Connection closed due to errors", err);
+      try {
+        const objdata = JSON.parse(data);
+        const arrData = [objdata];
+        console.log(arrData[0].rates.USD);
+        const currData = {
+          username: decoded.username,
+          inrRate: arrData[0].rates.INR,
+          usdRate: arrData[0].rates.USD,
+          audRate: arrData[0].rates.AUD,
+          jpyRate: arrData[0].rates.JPY,
+        };
+        // Render the currency.hbs file with the USD rate
+        res.render("currency", currData);
+      } catch (error) {
+        console.error("Error parsing JSON data", parseError);
+        res.status(500).send("Internal Server Error");
+      }
+    });
+});
