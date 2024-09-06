@@ -97,3 +97,49 @@ app.post("/register", async (req, res) => {
     res.status(400).send(error);
   }
 });
+
+//Render login page
+app.get("/login", (req, res) => {
+  if (req.cookies.emailToken == null) res.render("login");
+  else res.render("dashboard");
+});
+
+//Login as well as Generating tokenCookie
+app.post("/login", async (req, res) => {
+  try {
+    const email = req.body.email;
+    const pass = req.body.pass;
+    const userEmail = await Registers.findOne({ email: email });
+    //To check Email validation
+    if (userEmail == null) {
+      console.log("User Not Found!");
+      return res.status(400).send("User Not Found!");
+    }
+    const passwordMatch = await bcrypt.compare(pass, userEmail.password);
+
+    if (passwordMatch) {
+      const userData = { username: userEmail.email };
+      //Token setup
+      const token = jwt.sign(userData, "coinCanvas", { expiresIn: "1h" });
+      const cookieOptions = {
+        expiresIn: "1h",
+        httpOnly: true,
+      };
+      //Cookie setup
+      res.cookie("emailToken", token, cookieOptions);
+      res.redirect("dashboard");
+    } else {
+      //Desktop notification
+      notifier.notify({
+        title: "@coinCanvas",
+        message: "Invalid Details!",
+        icon: path.join(__dirname, "icon.jpg"),
+        sound: true,
+        wait: true,
+      });
+      req.body.otp = null;
+    }
+  } catch (err) {
+    res.send(err);
+  }
+});
